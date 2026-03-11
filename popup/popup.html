@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design Inspector Pro</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body data-theme="dark">
+  <!-- Minimized View -->
+  <div class="minimized-view" id="minimizedView" style="display:none">
+    <div class="min-left">
+      <img src="../icons/icon.png" alt="" class="min-logo-img" width="20" height="20">
+      <span class="min-title">Design Inspector Pro</span>
+    </div>
+    <button class="min-btn" id="expandBtn" title="Expand">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    </button>
+  </div>
+
+  <!-- Full View -->
+  <div class="full-view" id="fullView">
+    <div class="container">
+      <!-- Header -->
+      <header class="header">
+        <div class="logo">
+          <img src="../icons/icon.png" alt="" class="logo-img" width="26" height="26">
+          <div>
+            <h1>Design Inspector Pro</h1>
+            <!-- <span class="version">v1.0</span> -->
+          </div>
+        </div>
+        <div class="header-actions">
+          <button class="icon-btn" id="themeToggle" title="Toggle theme">
+            <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+          </button>
+          <button class="icon-btn" id="historyBtn" title="Color History">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </button>
+          <button class="icon-btn" id="minimizeBtn" title="Minimize">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <div class="status" id="statusIndicator">
+            <span class="status-dot"></span>
+            <span class="status-text">Inactive</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Tabs -->
+      <nav class="tabs">
+        <button class="tab active" data-tab="inspector">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Inspector
+        </button>
+        <button class="tab" data-tab="palette">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="8" r="2" fill="currentColor"/><circle cx="8" cy="14" r="2" fill="currentColor"/><circle cx="16" cy="14" r="2" fill="currentColor"/></svg>
+          Palette
+        </button>
+        <button class="tab" data-tab="fonts">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9.5" y1="20" x2="14.5" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+          Fonts
+        </button>
+        <button class="tab" data-tab="export">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Export
+        </button>
+        <button class="tab" data-tab="system">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          System
+        </button>
+      </nav>
+
+      <main>
+        <!-- Inspector Tab -->
+        <section class="tab-content active" id="tab-inspector">
+          <div class="modes">
+            <button class="mode-card" data-mode="color">
+              <div class="mode-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/></svg></div>
+              <span class="mode-name">Color</span>
+              <span class="mode-desc">Colors & swatches</span>
+            </button>
+            <button class="mode-card" data-mode="font">
+              <div class="mode-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9.5" y1="20" x2="14.5" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></div>
+              <span class="mode-name">Font</span>
+              <span class="mode-desc">Typography props</span>
+            </button>
+            <button class="mode-card" data-mode="css">
+              <div class="mode-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+              <span class="mode-name">CSS</span>
+              <span class="mode-desc">Layout & styles</span>
+            </button>
+            <button class="mode-card active" data-mode="full">
+              <div class="mode-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></div>
+              <span class="mode-name">Full</span>
+              <span class="mode-desc">All properties</span>
+            </button>
+          </div>
+          <button class="activate-btn" id="activateBtn">
+            <span class="btn-shimmer"></span>
+            <svg class="btn-icon play" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            <svg class="btn-icon stop" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:none"><rect x="5" y="5" width="14" height="14" rx="2"/></svg>
+            <span class="btn-text">Start Inspecting</span>
+          </button>
+          <p class="hint">Click element to lock panel • <kbd>Esc</kbd> to stop</p>
+        </section>
+
+        <!-- Palette Tab -->
+        <section class="tab-content" id="tab-palette">
+          <div class="tool-header">
+            <h3>Color Palette</h3>
+            <button class="action-btn" id="scanColors">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+              Scan Page
+            </button>
+          </div>
+          <div class="palette-grid" id="paletteGrid">
+            <div class="empty-state">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3"><path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/></svg>
+              <p>Click "Scan Page" to extract all colors used on the current page</p>
+            </div>
+          </div>
+          <!-- Color History -->
+          <div class="color-history-section" id="colorHistorySection" style="display:none">
+            <div class="tool-header" style="margin-top:14px">
+              <h3>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                Color History
+              </h3>
+              <button class="action-btn" id="clearHistory" style="font-size:10px;padding:4px 10px">Clear</button>
+            </div>
+            <div class="history-grid" id="historyGrid"></div>
+          </div>
+        </section>
+
+        <!-- Fonts Tab -->
+        <section class="tab-content" id="tab-fonts">
+          <div class="tool-header">
+            <h3>Font Analyzer</h3>
+            <button class="action-btn" id="scanFonts">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+              Scan Page
+            </button>
+          </div>
+          <div class="font-list" id="fontList">
+            <div class="empty-state">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9.5" y1="20" x2="14.5" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+              <p>Click "Scan Page" to analyze all fonts used on the current page</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Export Tab -->
+        <section class="tab-content" id="tab-export">
+          <div class="tool-header"><h3>CSS Export</h3></div>
+          <p class="export-hint">Inspect & click an element first, then export its styles</p>
+          <div class="export-formats">
+            <button class="format-btn active" data-format="css">CSS</button>
+            <button class="format-btn" data-format="json">JSON</button>
+            <button class="format-btn" data-format="tokens">Tokens</button>
+          </div>
+          <button class="action-btn full-width" id="exportBtn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Export Styles
+          </button>
+          <pre class="export-output" id="exportOutput"></pre>
+          <button class="action-btn copy-export" id="copyExport" style="display:none">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            Copy to Clipboard
+          </button>
+        </section>
+
+        <!-- Design System Tab -->
+        <section class="tab-content" id="tab-system">
+          <div class="tool-header">
+            <h3>Design System</h3>
+            <button class="action-btn" id="generateSystem">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              Generate
+            </button>
+          </div>
+          <div id="systemOutput">
+            <div class="empty-state">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+              <p>Generate a design system from the current page's styles</p>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

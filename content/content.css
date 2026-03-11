@@ -1,0 +1,105 @@
+/* Design Inspector Pro - Content Script Styles */
+
+/* Fullscreen invisible overlay for capturing events without interfering with the page */
+#dip-inspect-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 2147483644 !important;
+  background: transparent !important;
+  cursor: crosshair !important;
+  display: none !important;
+  pointer-events: auto !important;
+}
+
+/* Highlight overlay on hovered element */
+#dip-highlight-overlay {
+  position: fixed !important;
+  pointer-events: none !important;
+  z-index: 2147483645 !important;
+  border: 2px solid rgba(99, 102, 241, 0.85) !important;
+  background: rgba(99, 102, 241, 0.08) !important;
+  box-sizing: border-box !important;
+  transition: top 0.1s ease, left 0.1s ease, width 0.1s ease, height 0.1s ease !important;
+  display: none !important;
+  border-radius: 2px !important;
+  box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.15) !important;
+}
+
+#dip-highlight-overlay.dip-locked {
+  border-color: rgba(16, 185, 129, 0.85) !important;
+  background: rgba(16, 185, 129, 0.06) !important;
+  box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.2) !important;
+}
+
+/* Panel host */
+#dip-panel-host {
+  position: fixed !important;
+  z-index: 2147483647 !important;
+  pointer-events: none !important;
+  display: none !important;
+}
+
+#dip-panel-host.dip-locked {
+  pointer-events: auto !important;
+}
+
+/* Element tag tooltip */
+#dip-element-tag {
+  position: fixed !important;
+  z-index: 2147483646 !important;
+  pointer-events: none !important;
+  padding: 2px 7px !important;
+  background: rgba(79, 70, 229, 0.92) !important;
+  color: #fff !important;
+  font-size: 10px !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', monospace !important;
+  font-weight: 600 !important;
+  border-radius: 3px !important;
+  display: none !important;
+  white-space: nowrap !important;
+  letter-spacing: 0.3px !important;
+}
+
+/* Dimension labels */
+#dip-dimensions {
+  position: fixed !important;
+  z-index: 2147483646 !important;
+  pointer-events: none !important;
+  padding: 2px 6px !important;
+  background: rgba(16, 185, 129, 0.9) !important;
+  color: #fff !important;
+  font-size: 10px !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', monospace !important;
+  font-weight: 600 !important;
+  border-radius: 3px !important;
+  display: none !important;
+  white-space: nowrap !important;
+}
+
+/* Copy toast */
+#dip-toast {
+  position: fixed !important;
+  bottom: 24px !important;
+  left: 50% !important;
+  transform: translateX(-50%) translateY(60px) !important;
+  padding: 8px 18px !important;
+  background: rgba(16, 185, 129, 0.95) !important;
+  color: #fff !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  border-radius: 8px !important;
+  z-index: 2147483647 !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3) !important;
+}
+
+#dip-toast.dip-show {
+  transform: translateX(-50%) translateY(0) !important;
+  opacity: 1 !important;
+}
