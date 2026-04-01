@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Design Inspector Pro",
-  "version": "1.0.0",
+  "version": "3.3.1",
   "description": "Powerful design inspection tool for analyzing webpage visual properties: colors, typography, layout, spacing, and more.",
   "permissions": ["activeTab", "clipboardWrite", "storage"],
   "action": {
