@@ -343,11 +343,13 @@
     panelEl.querySelectorAll('[data-copy]').forEach(el => {
       el.addEventListener('click', (e) => {
         e.stopPropagation();
-        navigator.clipboard.writeText(el.dataset.copy).then(() => {
-          showToast(`Copied: ${el.dataset.copy}`);
-          el.classList.add('dip-copied');
-          setTimeout(() => el.classList.remove('dip-copied'), 800);
-        });
+        navigator.clipboard.writeText(el.dataset.copy)
+          .then(() => {
+            showToast(`Copied: ${el.dataset.copy}`);
+            el.classList.add('dip-copied');
+            setTimeout(() => el.classList.remove('dip-copied'), 800);
+          })
+          .catch(() => showToast('Copy failed'));
       });
     });
 
@@ -412,9 +414,11 @@
     e.stopPropagation();
     // Color mode: pick pixel color AND lock the panel
     if (currentMode === 'color' && cursorPixelColor) {
-      navigator.clipboard.writeText(cursorPixelColor).then(() => {
-        showToast('Copied: ' + cursorPixelColor);
-      });
+      navigator.clipboard.writeText(cursorPixelColor)
+        .then(() => {
+          showToast('Copied: ' + cursorPixelColor);
+        })
+        .catch(() => showToast('Copy failed'));
       saveToColorHistory(cursorPixelColor);
       // Lock the panel with element info (like other modes)
       if (isLocked) { unlockPanel(); }
@@ -788,6 +792,7 @@
       switch (msg.type) {
         case 'ACTIVATE': activate(msg.mode); sendResponse({ ok: true }); break;
         case 'DEACTIVATE': deactivate(); sendResponse({ ok: true }); break;
+        case 'GET_STATE': sendResponse({ isActive, mode: currentMode }); break;
         case 'SET_MODE':
           currentMode = msg.mode;
           // Always keep screenshot for Visual BG accuracy; color mode also uses zoom lens

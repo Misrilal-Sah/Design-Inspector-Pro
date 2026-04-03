@@ -3,7 +3,7 @@
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   // Screenshot capture for zoom lens color picker
   if (message.type === 'CAPTURE_TAB') {
-    chrome.tabs.captureVisibleTab(null, { format: 'png' }, (dataUrl) => {
+    chrome.tabs.captureVisibleTab({ format: 'png' }, (dataUrl) => {
       if (chrome.runtime.lastError) {
         sendResponse({ error: chrome.runtime.lastError.message });
       } else {

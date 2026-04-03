@@ -42,6 +42,23 @@ document.addEventListener('DOMContentLoaded', () => {
     if (data.dipMinimized) { isMinimized = true; applyMinimize(); }
   });
 
+  // Sync active state with content script (handles popup reopen while inspector is running)
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    if (tabs[0]) {
+      chrome.tabs.sendMessage(tabs[0].id, { type: 'GET_STATE' }, (response) => {
+        if (chrome.runtime.lastError) return; // content script not yet injected
+        if (response && response.isActive) {
+          isActive = true;
+          currentMode = response.mode || 'full';
+          updateActivateUI();
+          modeCards.forEach(c => c.classList.remove('active'));
+          const activeCard = document.querySelector(`[data-mode="${currentMode}"]`);
+          if (activeCard) activeCard.classList.add('active');
+        }
+      });
+    }
+  });
+
   // Color history elements
   const colorHistorySection = document.getElementById('colorHistorySection');
   const historyGrid = document.getElementById('historyGrid');
@@ -195,7 +212,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   copyExportBtn.addEventListener('click', () => {
-    navigator.clipboard.writeText(exportOutput.textContent).then(() => showToast('Copied to clipboard!'));
+    navigator.clipboard.writeText(exportOutput.textContent)
+      .then(() => showToast('Copied to clipboard!'))
+      .catch(() => showToast('Copy failed – try again'));
   });
 
   // ===== GENERATE DESIGN SYSTEM =====
@@ -220,11 +239,13 @@ document.addEventListener('DOMContentLoaded', () => {
     ).join('');
     paletteGrid.querySelectorAll('.color-swatch').forEach(swatch => {
       swatch.addEventListener('click', () => {
-        navigator.clipboard.writeText(swatch.dataset.copy).then(() => {
-          swatch.classList.add('copied');
-          showToast(`Copied ${swatch.dataset.copy}`);
-          setTimeout(() => swatch.classList.remove('copied'), 1500);
-        });
+        navigator.clipboard.writeText(swatch.dataset.copy)
+          .then(() => {
+            swatch.classList.add('copied');
+            showToast(`Copied ${swatch.dataset.copy}`);
+            setTimeout(() => swatch.classList.remove('copied'), 1500);
+          })
+          .catch(() => showToast('Copy failed – try again'));
       });
     });
   }
@@ -301,15 +322,17 @@ document.addEventListener('DOMContentLoaded', () => {
       ).join('');
       historyGrid.querySelectorAll('.history-swatch').forEach(s => {
         s.addEventListener('click', () => {
-          navigator.clipboard.writeText(s.dataset.hex).then(() => {
-            s.classList.add('copied');
-            s.querySelector('.hs-hex').textContent = 'Copied!';
-            showToast('Copied ' + s.dataset.hex);
-            setTimeout(() => {
-              s.classList.remove('copied');
-              s.querySelector('.hs-hex').textContent = s.dataset.hex;
-            }, 1500);
-          });
+          navigator.clipboard.writeText(s.dataset.hex)
+            .then(() => {
+              s.classList.add('copied');
+              s.querySelector('.hs-hex').textContent = 'Copied!';
+              showToast('Copied ' + s.dataset.hex);
+              setTimeout(() => {
+                s.classList.remove('copied');
+                s.querySelector('.hs-hex').textContent = s.dataset.hex;
+              }, 1500);
+            })
+            .catch(() => showToast('Copy failed – try again'));
         });
       });
     });
